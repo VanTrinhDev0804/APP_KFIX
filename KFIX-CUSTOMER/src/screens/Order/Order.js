@@ -19,6 +19,7 @@ import { database } from "../../firebase/config";
 
 import {
   Alert,
+  Linking,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -41,6 +42,7 @@ import {
   writeOrder2FireStrore,
 } from "../../firebase/asynsActions";
 import Modal from "react-native-modal";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 const Order = () => {
   var currentdate = new Date();
@@ -138,7 +140,7 @@ const Order = () => {
   const handleAccept = () => {
     updateKeyOrder(`${user.userId}/status`, "Thợ đang đến");
     dispatch(loadOrder(user.userId));
-    setIsOrderPrice(false)
+    setIsOrderPrice(false);
   };
   const handlenotifyPrice = () => {
     Alert.alert(
@@ -179,10 +181,7 @@ const Order = () => {
 
   return (
     <>
-    <Notification
-      title="Thông báo"
-      body={statusOrder}
-    />
+      <Notification title="Thông báo" body={statusOrder} />
       {loading ? (
         ""
       ) : (
@@ -213,9 +212,17 @@ const Order = () => {
                       <View style={[generalStyle.rowCenterV, generalStyle.mb2]}>
                         <Entypo name="location-pin" size={30} color="red" />
                         <View style={stylesOrder.infoCustomer}>
-                          <Text style={stylesOrder.textInfoCustomerdiaChi}>
-                            {value && value.diaChi}
-                          </Text>
+                          <Pressable
+                            onPress={() =>
+                              Linking.openURL(
+                                `https://www.google.com/maps/dir/?api=1&destination=${value?.diaChi}`
+                              )
+                            }
+                          >
+                            <Text style={stylesOrder.textInfoCustomerdiaChi}>
+                              {value && value.diaChi}
+                            </Text>
+                          </Pressable>
                         </View>
                       </View>
                       <View style={[generalStyle.rowCenterV, generalStyle.mb2]}>

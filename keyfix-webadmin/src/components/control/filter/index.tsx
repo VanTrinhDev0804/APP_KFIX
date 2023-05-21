@@ -1,6 +1,4 @@
-import { Form, Radio, Select, DatePicker, Space, Button } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { Radio, Select, DatePicker, Space } from 'antd';
 import React, { useState } from 'react';
 import './style.scss'
 import { useAppDispatch } from '../../../redux/hooks';
@@ -8,14 +6,6 @@ import { filter } from '../../../redux/slice/filterSlice';
 import { store } from '../../../redux/store';
 
 const { Option } = Select;
-const { RangePicker } = DatePicker;
-
-interface FilterFormData {
-  day: string;
-  month: string;
-  year: string;
-}
-
 
 
 const Filter: React.FC = () => {
@@ -80,11 +70,12 @@ const Filter: React.FC = () => {
             <Radio value={4} className='color-radio'>Theo quý</Radio>
         </Radio.Group>
         <Space direction="vertical" size={12}>
-            {value === 1 && <DatePicker placeholder="Chọn ngày" onChange={handleDateChange} format="DD-MM-YYYY" /> }
+            {value === 1 && <DatePicker placeholder="Chọn ngày" onChange={handleDateChange} format="DD-M-YYYY" /> }
             {value === 2 && <Space direction="horizontal">
                <Select placeholder="Lọc theo tháng" onChange={handleMonthChange}>
                     {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                        <Option key={month} value={month.toString().padStart(2, '0')}>
+                        // <Option key={month} value={month.toString().padStart(2, '0')}>
+                        <Option key={month} value={month.toString()}>
                             {month}
                         </Option>
                     ))}
@@ -99,7 +90,6 @@ const Filter: React.FC = () => {
                 
             </Space >}
             {value === 3 && <DatePicker picker="year" onChange={handleYearFChange}/>}
-            {/* <Button icon={<FilterOutlined />}>Lọc</Button> */}
         </Space>
     </Space>
   );
